@@ -1,0 +1,57 @@
+/* 1️⃣ Reset & Grund‑Stile */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html, body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  background: #fafafa;
+  color: #333;
+  min-height: 100vh;
+}
+a {
+  color: #0066cc;
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* 2️⃣ Layout */
+header, nav, main, footer {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+header { background: #fff; }
+main { background: #fff; margin-top: 1rem; }
+footer { text-align: center; font-size: .9rem; color: #666; }
+
+/* 3️⃣ Navigation */
+nav a {
+  margin-right: 1rem;
+  font-weight: 600;
+}
+
+/* 4️⃣ Bilder‑Galerie */
+figure {
+  margin: 1rem 0;
+  text-align: center;
+}
+figure img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+figure figcaption {
+  font-size: .9rem;
+  color: #555;
+}
+
+/* 5️⃣ Responsiv */
+@media (max-width: 600px) {
+  header, main, footer { padding: .5rem; }
+  nav a { margin-right: .5rem; }
+}
