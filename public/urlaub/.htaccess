@@ -20,7 +20,8 @@
 #
 # ──────────────────────────────────────────────────
 
-AuthType Basic
-AuthName "Privater Bereich"
-AuthUserFile ${DOCUMENT_ROOT}/urlaub/.htpasswd
-Require valid-user
+# Passwortschutz temporär deaktiviert – AuthUserFile-Pfad wird noch gesetzt
+# AuthType Basic
+# AuthName "Privater Bereich"
+# AuthUserFile /PFAD_BITTE_EINTRAGEN/urlaub/.htpasswd
+# Require valid-user
