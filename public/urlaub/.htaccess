@@ -1,0 +1,26 @@
+# ──────────────────────────────────────────────────
+# Passwortschutz für den Urlaub-Bereich
+# ──────────────────────────────────────────────────
+#
+# SETUP (einmalig auf IONOS):
+#
+# 1. .htpasswd erzeugen – im Terminal auf deinem Mac:
+#       htpasswd -c .htpasswd <benutzername>
+#    (Passwort wird abgefragt und sicher als Hash gespeichert)
+#
+# 2. .htpasswd per SFTP in das Verzeichnis
+#       /urlaub/.htpasswd
+#    hochladen (neben dieser .htaccess-Datei).
+#
+# 3. Den absoluten Serverpfad in AuthUserFile anpassen.
+#    Bei IONOS lautet er meist:
+#       /var/www/vhosts/bartheidel.de/httpdocs/urlaub/.htpasswd
+#    Den genauen Pfad findest du im IONOS-Kundencenter
+#    unter Hosting → FTP-Zugangsdaten → Basispfad.
+#
+# ──────────────────────────────────────────────────
+
+AuthType Basic
+AuthName "Privater Bereich"
+AuthUserFile /var/www/vhosts/bartheidel.de/httpdocs/urlaub/.htpasswd
+Require valid-user

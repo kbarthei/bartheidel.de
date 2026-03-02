@@ -1,5 +1,7 @@
 # Node modules (if any)
 node_modules/
+# Claude Code local settings
+.claude/
 # Log files
 *.log
 # System files

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktive Karte - 15 Tage Südengland</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        #map {
+            width: 100%;
+            height: 700px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .map-legend {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .map-legend h3 {
+            margin: 0 0 1rem 0;
+            color: #1f2937;
+        }
+        
+        .legend-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .legend-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        
+        .legend-icon.accommodation {
+            background: #10b981;
+            color: white;
+        }
+        
+        .legend-icon.attraction {
+            background: #667eea;
+            color: white;
+        }
+        
+        .legend-icon.ferry {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .legend-text {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        .location-list {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .location-list h3 {
+            margin: 0 0 1.5rem 0;
+            color: #1f2937;
+        }
+        
+        .location-grid {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .location-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .location-item.accommodation {
+            border-left-color: #10b981;
+        }
+        
+        .location-item.ferry {
+            border-left-color: #3b82f6;
+        }
+        
+        .location-number {
+            min-width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        
+        .location-info {
+            flex: 1;
+        }
+        
+        .location-info h4 {
+            margin: 0 0 0.3rem 0;
+            color: #1f2937;
+            font-size: 1rem;
+        }
+        
+        .location-info p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+        
+        /* Custom Leaflet Popup Styles */
+        .leaflet-popup-content-wrapper {
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+        
+        .leaflet-popup-content {
+            margin: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .popup-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+        
+        .popup-description {
+            color: #6b7280;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .popup-type {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        
+        .popup-type.accommodation {
+            background: #10b981;
+        }
+        
+        .popup-type.ferry {
+            background: #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="title">🗺️ Interaktive Reisekarte</h1>
+            <p class="subtitle">Alle Stationen der 15-Tage-Reise auf einen Blick</p>
+        </div>
+    </header>
+
+    <nav class="navigation">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link">Übersicht</a></li>
+                <li><a href="tagesplan.html" class="nav-link">Tagesplan</a></li>
+                <li><a href="detailliert.html" class="nav-link">Detailliert</a></li>
+                <li><a href="buchungen.html" class="nav-link">Buchungen</a></li>
+                <li><a href="karte.html" class="nav-link active">Karte</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main">
+        <div class="container">
+            
+            <!-- Map Legend -->
+            <div class="map-legend">
+                <h3>🎯 Legende</h3>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <div class="legend-icon accommodation">🏨</div>
+                        <span class="legend-text">Unterkünfte (13)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-icon attraction">📍</div>
+                        <span class="legend-text">Sehenswürdigkeiten (20+)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-icon ferry">⛴️</div>
+                        <span class="legend-text">Fährverbindungen (3)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Map -->
+            <div id="map"></div>
+
+            <!-- Location List -->
+            <div class="location-list">
+                <h3>📍 Alle Stationen (25 Orte)</h3>
+                <div class="location-grid">
+                    <div class="location-item accommodation">
+                        <div class="location-number">1</div>
+                        <div class="location-info">
+                            <h4>🏕️ Coxhill Camping</h4>
+                            <p>Canterbury, Kent • 24. August</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">2</div>
+                        <div class="location-info">
+                            <h4>🏛️ Canterbury Cathedral</h4>
+                            <p>UNESCO-Weltkulturerbe • Tag 1</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">3</div>
+                        <div class="location-info">
+                            <h4>🏖️ Brighton</h4>
+                            <p>The Lanes & Palace Pier • Tag 2</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item accommodation">
+                        <div class="location-number">4</div>
+                        <div class="location-info">
+                            <h4>🏨 Florence House Hotel</h4>
+                            <p>Portsmouth, Hampshire • 25. August</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">5</div>
+                        <div class="location-info">
+                            <h4>⚓ Portsmouth Historic Dockyard</h4>
+                            <p>HMS Victory & Mary Rose • Tag 2</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item ferry">
+                        <div class="location-number">6</div>
+                        <div class="location-info">
+                            <h4>⛴️ Fähre Portsmouth → Fishbourne</h4>
+                            <p>Isle of Wight • 26. August</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item accommodation">
+                        <div class="location-number">7</div>
+                        <div class="location-info">
+                            <h4>🏕️ Grange Farm Camping</h4>
+                            <p>Isle of Wight • 26.-28. August (3 Nächte)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">8</div>
+                        <div class="location-info">
+                            <h4>🏰 Carisbrooke Castle</h4>
+                            <p>Donkey Wheel • Tag 4</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">9</div>
+                        <div class="location-info">
+                            <h4>⛵ Cowes</h4>
+                            <p>Yachting Capital • Tag 4</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">10</div>
+                        <div class="location-info">
+                            <h4>🏔️ The Needles</h4>
+                            <p>Kreidefelsen & Leuchtturm • Tag 5</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item ferry">
+                        <div class="location-number">11</div>
+                        <div class="location-info">
+                            <h4>⛴️ Fähre Yarmouth → Lymington</h4>
+                            <p>Zurück zum Festland • 28. August</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item accommodation">
+                        <div class="location-number">12</div>
+                        <div class="location-info">
+                            <h4>🏨 The Montagu Arms Hotel</h4>
+                            <p>Beaulieu, New Forest • 28. August</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">13</div>
+                        <div class="location-info">
+                            <h4>🦌 New Forest National Park</h4>
+                            <p>Wilde Ponys & Hirsche • Tag 5-6</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item accommodation">
+                        <div class="location-number">14</div>
+                        <div class="location-info">
+                            <h4>🏕️ Durdle Door Holiday Park</h4>
+                            <p>Lulworth, Dorset • 29. August</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">15</div>
+                        <div class="location-info">
+                            <h4>🌊 Durdle Door</h4>
+                            <p>UNESCO Jurassic Coast • Tag 6</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">16</div>
+                        <div class="location-info">
+                            <h4>🦴 Lyme Regis</h4>
+                            <p>Fossilien-Suche im Regen • Tag 7</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item accommodation">
+                        <div class="location-number">17</div>
+                        <div class="location-info">
+                            <h4>🏕️ Langstone Manor Camping</h4>
+                            <p>Tavistock, Dartmoor • 30. August</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">18</div>
+                        <div class="location-info">
+                            <h4>🐴 Dartmoor National Park</h4>
+                            <p>Haytor Rocks & Ponys • Tag 7-8</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item accommodation">
+                        <div class="location-number">19</div>
+                        <div class="location-info">
+                            <h4>🏨 The Headland Hotel</h4>
+                            <p>Newquay, Cornwall • 31. Aug - 1. Sep (2 Nächte)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">20</div>
+                        <div class="location-info">
+                            <h4>🌿 Eden Project</h4>
+                            <p>Zip Line & Biome • Tag 10</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item accommodation">
+                        <div class="location-number">21</div>
+                        <div class="location-info">
+                            <h4>🏕️ East Crinnis Holiday Park</h4>
+                            <p>Par, Cornwall • 2.-4. Sep (3 Nächte)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">22</div>
+                        <div class="location-info">
+                            <h4>🎨 St. Ives</h4>
+                            <p>Künstlerstadt & Harbour • Tag 11</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">23</div>
+                        <div class="location-info">
+                            <h4>🏰 St. Michael's Mount</h4>
+                            <p>Klosterinsel bei Marazion • Tag 11</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">24</div>
+                        <div class="location-info">
+                            <h4>🌲 Puzzlewood</h4>
+                            <p>Star Wars Drehort • Tag 12</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item accommodation">
+                        <div class="location-number">25</div>
+                        <div class="location-info">
+                            <h4>⛺ The Wildings Campsite - Tippi</h4>
+                            <p>Bourton-on-the-Water, Cotswolds • 4. Sep</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">26</div>
+                        <div class="location-info">
+                            <h4>🌊 Bourton-on-the-Water</h4>
+                            <p>Venice of the Cotswolds • Tag 12</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item accommodation">
+                        <div class="location-number">27</div>
+                        <div class="location-info">
+                            <h4>🏨 Malmaison Oxford</h4>
+                            <p>Oxford, Oxfordshire • 5. Sep</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">28</div>
+                        <div class="location-info">
+                            <h4>🎓 Oxford University</h4>
+                            <p>Christ Church & Harry Potter • Tag 13</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">29</div>
+                        <div class="location-info">
+                            <h4>🏛️ Winchester Cathedral</h4>
+                            <p>Jane Austen's Grab • Tag 14</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item accommodation">
+                        <div class="location-number">30</div>
+                        <div class="location-info">
+                            <h4>🏕️ Hare & Hounds Campingplatz</h4>
+                            <p>Rye, East Sussex • 6. Sep</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">31</div>
+                        <div class="location-info">
+                            <h4>🏰 Rye</h4>
+                            <p>Mittelalterliche Stadt • Tag 15</p>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-number">32</div>
+                        <div class="location-info">
+                            <h4>🏖️ Camber Sands</h4>
+                            <p>7 Meilen Sandstrand • Tag 15</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 England Trip - Unvergessliche 15 Tage durch Südengland</p>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Map Script -->
+    <script>
+        // Initialize the map centered on South England
+        const map = L.map('map').setView([50.8, -1.5], 8);
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Define custom icons
+        const accommodationIcon = L.divIcon({
+            className: 'custom-icon',
+            html: '<div style="background: #10b981; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">🏨</div>',
+            iconSize: [35, 35],
+            iconAnchor: [17, 17]
+        });
+
+        const attractionIcon = L.divIcon({
+            className: 'custom-icon',
+            html: '<div style="background: #667eea; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">📍</div>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+
+        const ferryIcon = L.divIcon({
+            className: 'custom-icon',
+            html: '<div style="background: #3b82f6; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">⛴️</div>',
+            iconSize: [32, 32],
+            iconAnchor: [16, 16]
+        });
+
+        // Location data
+        const locations = [
+            // Accommodations
+            { lat: 51.1789, lng: 1.3134, name: 'Coxhill Camping', type: 'accommodation', description: 'Canterbury, Kent • 24. August' },
+            { lat: 50.7833, lng: -1.0833, name: 'Florence House Hotel', type: 'accommodation', description: 'Portsmouth • 25. August' },
+            { lat: 50.6167, lng: -1.3667, name: 'Grange Farm Camping', type: 'accommodation', description: 'Isle of Wight • 26.-28. August (3 Nächte)' },
+            { lat: 50.8167, lng: -1.4500, name: 'The Montagu Arms Hotel', type: 'accommodation', description: 'Beaulieu, New Forest • 28. August' },
+            { lat: 50.6167, lng: -2.2500, name: 'Durdle Door Holiday Park', type: 'accommodation', description: 'Lulworth, Dorset • 29. August' },
+            { lat: 50.5333, lng: -4.2000, name: 'Langstone Manor Camping', type: 'accommodation', description: 'Tavistock, Dartmoor • 30. August' },
+            { lat: 50.4167, lng: -5.0833, name: 'The Headland Hotel', type: 'accommodation', description: 'Newquay, Cornwall • 31. Aug - 1. Sep (2 Nächte)' },
+            { lat: 50.3333, lng: -4.7333, name: 'East Crinnis Holiday Park', type: 'accommodation', description: 'Par, Cornwall • 2.-4. Sep (3 Nächte)' },
+            { lat: 51.8833, lng: -1.7333, name: 'The Wildings Campsite - Tippi', type: 'accommodation', description: 'Bourton-on-the-Water, Cotswolds • 4. Sep' },
+            { lat: 51.7520, lng: -1.2577, name: 'Malmaison Oxford', type: 'accommodation', description: 'Oxford • 5. Sep' },
+            { lat: 50.9500, lng: 0.7333, name: 'Hare & Hounds Campingplatz', type: 'accommodation', description: 'Rye, East Sussex • 6. Sep' },
+            
+            // Attractions
+            { lat: 51.2800, lng: 1.0789, name: 'Canterbury Cathedral', type: 'attraction', description: 'UNESCO-Weltkulturerbe • Tag 1' },
+            { lat: 50.8225, lng: -0.1372, name: 'Brighton', type: 'attraction', description: 'The Lanes & Palace Pier • Tag 2' },
+            { lat: 50.8000, lng: -1.1000, name: 'Portsmouth Historic Dockyard', type: 'attraction', description: 'HMS Victory & Mary Rose • Tag 2' },
+            { lat: 50.6833, lng: -1.3000, name: 'Carisbrooke Castle', type: 'attraction', description: 'Donkey Wheel • Tag 4' },
+            { lat: 50.7600, lng: -1.2975, name: 'Cowes', type: 'attraction', description: 'Yachting Capital • Tag 4' },
+            { lat: 50.6667, lng: -1.5833, name: 'The Needles', type: 'attraction', description: 'Kreidefelsen & Leuchtturm • Tag 5' },
+            { lat: 50.8500, lng: -1.5833, name: 'New Forest National Park', type: 'attraction', description: 'Wilde Ponys & Hirsche • Tag 5-6' },
+            { lat: 50.6200, lng: -2.2500, name: 'Durdle Door', type: 'attraction', description: 'UNESCO Jurassic Coast • Tag 6' },
+            { lat: 50.7250, lng: -2.9333, name: 'Lyme Regis', type: 'attraction', description: 'Fossilien-Suche im Regen • Tag 7' },
+            { lat: 50.5833, lng: -3.9167, name: 'Dartmoor National Park', type: 'attraction', description: 'Haytor Rocks & Ponys • Tag 7-8' },
+            { lat: 50.3600, lng: -4.7400, name: 'Eden Project', type: 'attraction', description: 'Zip Line & Biome • Tag 10' },
+            { lat: 50.2100, lng: -5.4800, name: 'St. Ives', type: 'attraction', description: 'Künstlerstadt & Harbour • Tag 11' },
+            { lat: 50.1167, lng: -5.4833, name: "St. Michael's Mount", type: 'attraction', description: 'Klosterinsel bei Marazion • Tag 11' },
+            { lat: 51.7833, lng: -2.6167, name: 'Puzzlewood', type: 'attraction', description: 'Star Wars Drehort • Tag 12' },
+            { lat: 51.8833, lng: -1.7333, name: 'Bourton-on-the-Water', type: 'attraction', description: 'Venice of the Cotswolds • Tag 12' },
+            { lat: 51.7520, lng: -1.2577, name: 'Oxford University', type: 'attraction', description: 'Christ Church & Harry Potter • Tag 13' },
+            { lat: 51.0632, lng: -1.3080, name: 'Winchester Cathedral', type: 'attraction', description: "Jane Austen's Grab • Tag 14" },
+            { lat: 50.9500, lng: 0.7333, name: 'Rye', type: 'attraction', description: 'Mittelalterliche Stadt • Tag 15' },
+            { lat: 50.9167, lng: 0.7833, name: 'Camber Sands', type: 'attraction', description: '7 Meilen Sandstrand • Tag 15' },
+            
+            // Ferries
+            { lat: 50.8000, lng: -1.1000, name: 'Fähre Portsmouth → Fishbourne', type: 'ferry', description: 'Isle of Wight • 26. August' },
+            { lat: 50.7000, lng: -1.5000, name: 'Fähre Yarmouth → Lymington', type: 'ferry', description: 'Zurück zum Festland • 28. August' }
+        ];
+
+        // Add markers to the map
+        locations.forEach(location => {
+            let icon;
+            if (location.type === 'accommodation') {
+                icon = accommodationIcon;
+            } else if (location.type === 'ferry') {
+                icon = ferryIcon;
+            } else {
+                icon = attractionIcon;
+            }
+
+            const marker = L.marker([location.lat, location.lng], { icon: icon }).addTo(map);
+            
+            const popupContent = `
+                <div class="popup-title">${location.name}</div>
+                <div class="popup-description">${location.description}</div>
+                <div class="popup-type ${location.type}">${
+                    location.type === 'accommodation' ? '🏨 Unterkunft' :
+                    location.type === 'ferry' ? '⛴️ Fähre' :
+                    '📍 Sehenswürdigkeit'
+                }</div>
+            `;
+            
+            marker.bindPopup(popupContent);
+        });
+
+        // Draw route line
+        const routeCoordinates = [
+            [51.1789, 1.3134],  // Canterbury
+            [50.8225, -0.1372], // Brighton
+            [50.8000, -1.1000], // Portsmouth
+            [50.6167, -1.3667], // Isle of Wight
+            [50.8167, -1.4500], // New Forest
+            [50.6167, -2.2500], // Durdle Door
+            [50.7250, -2.9333], // Lyme Regis
+            [50.5833, -3.9167], // Dartmoor
+            [50.4167, -5.0833], // Newquay
+            [50.3600, -4.7400], // Eden Project
+            [50.2100, -5.4800], // St. Ives
+            [51.7833, -2.6167], // Puzzlewood
+            [51.8833, -1.7333], // Bourton-on-the-Water
+            [51.7520, -1.2577], // Oxford
+            [51.0632, -1.3080], // Winchester
+            [50.9500, 0.7333],  // Rye
+            [50.9167, 0.7833]   // Camber Sands
+        ];
+
+        const routeLine = L.polyline(routeCoordinates, {
+            color: '#667eea',
+            weight: 3,
+            opacity: 0.7,
+            smoothFactor: 1
+        }).addTo(map);
+
+        // Fit map to show all markers
+        const group = L.featureGroup(locations.map(loc => L.marker([loc.lat, loc.lng])));
+        map.fitBounds(group.getBounds().pad(0.1));
+    </script>
+    
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detaillierter Zeitplan - 15 Tage Südengland</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .timeline-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .day-timeline {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .day-timeline-header {
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .day-timeline-header h2 {
+            margin: 0;
+            color: #1f2937;
+            font-size: 1.8rem;
+        }
+        
+        .day-timeline-header p {
+            margin: 0.5rem 0 0 0;
+            color: #6b7280;
+            font-size: 1rem;
+        }
+        
+        .timeline-item {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 4.5rem;
+            top: 2.5rem;
+            bottom: -1.5rem;
+            width: 2px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+            opacity: 0.3;
+        }
+        
+        .timeline-item:last-child::before {
+            display: none;
+        }
+        
+        .timeline-time {
+            min-width: 80px;
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1.1rem;
+            padding-top: 0.3rem;
+        }
+        
+        .timeline-content {
+            flex: 1;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            border-left: 4px solid #667eea;
+        }
+        
+        .timeline-content h4 {
+            margin: 0 0 0.5rem 0;
+            color: #1f2937;
+            font-size: 1.1rem;
+        }
+        
+        .timeline-content p {
+            margin: 0.3rem 0;
+            color: #6b7280;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .timeline-content ul {
+            margin: 0.5rem 0 0 0;
+            padding-left: 1.2rem;
+            color: #6b7280;
+        }
+        
+        .timeline-content li {
+            margin: 0.3rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .highlight-activity {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-left-color: #fbbf24;
+        }
+        
+        .highlight-activity h4,
+        .highlight-activity p,
+        .highlight-activity li {
+            color: white;
+        }
+        
+        .accommodation-info {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .accommodation-info h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+        }
+        
+        .accommodation-info p {
+            margin: 0.2rem 0;
+            opacity: 0.95;
+        }
+        
+        .stats-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .stat-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1.5rem;
+            border-radius: 15px;
+        }
+        
+        .stat-box .number {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-box .label {
+            font-size: 0.95rem;
+            opacity: 0.95;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="title">⏰ Minutiöser Zeitplan</h1>
+            <p class="subtitle">Detaillierte Uhrzeiten für alle 15 Tage</p>
+        </div>
+    </header>
+
+    <nav class="navigation">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link">Übersicht</a></li>
+                <li><a href="tagesplan.html" class="nav-link">Tagesplan</a></li>
+                <li><a href="detailliert.html" class="nav-link active">Detailliert</a></li>
+                <li><a href="buchungen.html" class="nav-link">Buchungen</a></li>
+                <li><a href="karte.html" class="nav-link">Karte</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main">
+        <div class="container timeline-container">
+            
+            <div class="stats-summary">
+                <h2>📊 Gesamtstatistik - 15 Tage England</h2>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span class="number">187</span>
+                        <span class="label">Zeitpunkte</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="number">87h</span>
+                        <span class="label">Besichtigungszeit</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="number">35h</span>
+                        <span class="label">Fahrzeit</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="number">1200km</span>
+                        <span class="label">Gesamtstrecke</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tag 1 -->
+            <div class="day-timeline">
+                <div class="day-timeline-header">
+                    <h2>Tag 1 - Sonntag, 24. August 2025</h2>
+                    <p>Anreise & Canterbury • ca. 750 km</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">03:00</div>
+                    <div class="timeline-content">
+                        <h4>Abfahrt Leonberg</h4>
+                        <p>Start der großen England-Reise!</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">11:50</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>DFDS-Fähre Calais → Dover</h4>
+                        <p>Überfahrt über den Ärmelkanal (40 Min)</p>
+                        <p>Ankunft Dover: 12:30 GMT</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">13:15</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Canterbury Cathedral</h4>
+                        <p>UNESCO-Weltkulturerbe (4h 15min)</p>
+                        <ul>
+                            <li>Thomas Becket Shrine</li>
+                            <li>Krypta & Kirchenschiff</li>
+                            <li>Audio-Guide (deutsch)</li>
+                            <li>Canterbury Altstadt erkunden</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">18:00</div>
+                    <div class="timeline-content">
+                        <h4>Check-in Coxhill Camping</h4>
+                        <p>Campingplatz einrichten, Abendessen, Entspannung</p>
+                    </div>
+                </div>
+                
+                <div class="accommodation-info">
+                    <h4>🏕️ Übernachtung: Coxhill Camping</h4>
+                    <p>Shepherdswell, Dover, Kent</p>
+                </div>
+            </div>
+
+            <!-- Tag 2 -->
+            <div class="day-timeline">
+                <div class="day-timeline-header">
+                    <h2>Tag 2 - Montag, 25. August 2025</h2>
+                    <p>Canterbury → Brighton → Portsmouth • ca. 200 km</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">09:30</div>
+                    <div class="timeline-content">
+                        <h4>Abfahrt nach Brighton</h4>
+                        <p>Fahrtzeit: 1h 45min (85 Meilen)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">11:15</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Brighton Palace Pier</h4>
+                        <p>Viktorianischer Vergnügungspier (1,5h)</p>
+                        <ul>
+                            <li>Fish & Chips Mittagessen</li>
+                            <li>Arcade Games & Fahrgeschäfte</li>
+                            <li>Meeresluft & Aussicht</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">12:45</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>The Lanes Brighton</h4>
+                        <p>Berühmte Boutiquen-Gassen (1,5h)</p>
+                        <ul>
+                            <li>Antique Shops & Jewelry</li>
+                            <li>Unique Brighton Shopping</li>
+                            <li>Vintage Cafés</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">16:00</div>
+                    <div class="timeline-content">
+                        <h4>Abfahrt nach Portsmouth</h4>
+                        <p>Fahrtzeit: 1h 15min (50 Meilen)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">17:30</div>
+                    <div class="timeline-content">
+                        <h4>Check-in Florence House Hotel</h4>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">18:00</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Portsmouth Historic Dockyard</h4>
+                        <p>Maritime Geschichte (2h)</p>
+                        <ul>
+                            <li>HMS Victory - Nelson's Flaggschiff</li>
+                            <li>Mary Rose Museum</li>
+                            <li>National Museum of the Royal Navy</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-info">
+                    <h4>🏨 Übernachtung: Florence House Hotel</h4>
+                    <p>Portsmouth, Hampshire</p>
+                </div>
+            </div>
+
+            <!-- Tag 3 -->
+            <div class="day-timeline">
+                <div class="day-timeline-header">
+                    <h2>Tag 3 - Dienstag, 26. August 2025</h2>
+                    <p>Portsmouth → Isle of Wight • Fähre + 20 km</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">10:00</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Fähre Portsmouth → Fishbourne</h4>
+                        <p>Überfahrt zur Isle of Wight (45 Min)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">11:00</div>
+                    <div class="timeline-content">
+                        <h4>Newport Stadtzentrum</h4>
+                        <p>Isle of Wight Hauptstadt (2h)</p>
+                        <ul>
+                            <li>Newport Minster</li>
+                            <li>Newport Roman Villa</li>
+                            <li>Mittagessen im Museum Café</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">13:35</div>
+                    <div class="timeline-content">
+                        <h4>Check-in Grange Farm Camping</h4>
+                        <p>Campingplatz direkt an den Klippen</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">14:45</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Klippenwanderung</h4>
+                        <p>Coastal Path mit spektakulären Ausblicken (2h 45min)</p>
+                        <ul>
+                            <li>Fotostopps an Aussichtspunkten</li>
+                            <li>Vogelbeobachtung</li>
+                            <li>Sonnenuntergang über dem Meer</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-info">
+                    <h4>🏕️ Übernachtung: Grange Farm Camping</h4>
+                    <p>Brighstone, Isle of Wight (1. Nacht von 3)</p>
+                </div>
+            </div>
+
+            <!-- Tag 4 -->
+            <div class="day-timeline">
+                <div class="day-timeline-header">
+                    <h2>Tag 4 - Mittwoch, 27. August 2025</h2>
+                    <p>Isle of Wight Rundtour • ca. 80 km</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">10:00</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Carisbrooke Castle</h4>
+                        <p>Mittelalterliche Burg (2h)</p>
+                        <ul>
+                            <li>Donkey Wheel - berühmtes Esel-Rad</li>
+                            <li>Great Hall & Museum</li>
+                            <li>Princess Beatrice Garden</li>
+                            <li>Burgmauern & Aussichtstürme</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">12:35</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Cowes - Yachting Capital</h4>
+                        <p>Weltberühmter Segelort (3h 25min)</p>
+                        <ul>
+                            <li>Cowes High Street & Marina</li>
+                            <li>Royal Yacht Squadron</li>
+                            <li>Mittagessen in Harbour Pub</li>
+                            <li>Luxury Yachts bewundern</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">16:45</div>
+                    <div class="timeline-content">
+                        <h4>Rückkehr Grange Farm</h4>
+                        <p>Entspannung am Campingplatz, Sonnenuntergang</p>
+                    </div>
+                </div>
+                
+                <div class="accommodation-info">
+                    <h4>🏕️ Übernachtung: Grange Farm Camping</h4>
+                    <p>Brighstone, Isle of Wight (2. Nacht)</p>
+                </div>
+            </div>
+
+            <!-- Tag 5 -->
+            <div class="day-timeline">
+                <div class="day-timeline-header">
+                    <h2>Tag 5 - Donnerstag, 28. August 2025</h2>
+                    <p>Isle of Wight → New Forest • Fähre + 60 km</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">10:15</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>The Needles & Alum Bay</h4>
+                        <p>Berühmte Kreidefelsen (1,5h)</p>
+                        <ul>
+                            <li>Chairlift zum Strand</li>
+                            <li>Leuchtturm & Kreidefelsen</li>
+                            <li>Alum Bay Coloured Sands</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">12:05</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Fähre Yarmouth → Lymington</h4>
+                        <p>Rückkehr zum Festland (40 Min)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">13:15</div>
+                    <div class="timeline-content">
+                        <h4>Brockenhurst Village</h4>
+                        <p>New Forest Hauptstadt (1,5h)</p>
+                        <ul>
+                            <li>Esel mitten im Ort</li>
+                            <li>New Forest Ponys in den Straßen</li>
+                            <li>Pub-Lunch mit Local Ale</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">15:30</div>
+                    <div class="timeline-content">
+                        <h4>Check-in Montagu Arms Hotel</h4>
+                        <p>Luxuriöses Landhotel in Beaulieu</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">16:00</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>National Motor Museum</h4>
+                        <p>Weltberühmte Autosammlung (2h)</p>
+                        <ul>
+                            <li>James Bond Fahrzeuge</li>
+                            <li>Vintage Cars & Motorcycles</li>
+                            <li>Palace House & Beaulieu Abbey</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-info">
+                    <h4>🏨 Übernachtung: The Montagu Arms Hotel</h4>
+                    <p>Beaulieu, New Forest</p>
+                </div>
+            </div>
+
+            <!-- Tag 6 -->
+            <div class="day-timeline">
+                <div class="day-timeline-header">
+                    <h2>Tag 6 - Freitag, 29. August 2025</h2>
+                    <p>New Forest → Durdle Door • ca. 80 km</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">09:15</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Bolderwood Deer Sanctuary</h4>
+                        <p>Wilde Hirsche beobachten (1h 15min)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">10:45</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Rhinefield Ornamental Drive</h4>
+                        <p>Spektakuläre Baumallee (1h 15min)</p>
+                        <ul>
+                            <li>Wilde Ponys, Esel und Kühe</li>
+                            <li>Fotostopps bei Tierbegegnungen</li>
+                            <li>Tall Trees Walk</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">12:00</div>
+                    <div class="timeline-content">
+                        <h4>Fritham & Eyeworth Pond</h4>
+                        <p>Heidegebiet & Picknick (1h)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">16:15</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Durdle Door</h4>
+                        <p>UNESCO Jurassic Coast (2h 15min)</p>
+                        <ul>
+                            <li>Berühmter Kalkstein-Bogen</li>
+                            <li>Coastal Path Wanderung</li>
+                            <li>Am Strand spielen</li>
+                            <li>Fossilien suchen</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-info">
+                    <h4>🏕️ Übernachtung: Durdle Door Holiday Park</h4>
+                    <p>Lulworth, Dorset</p>
+                </div>
+            </div>
+
+            <!-- Tag 7 -->
+            <div class="day-timeline">
+                <div class="day-timeline-header">
+                    <h2>Tag 7 - Samstag, 30. August 2025</h2>
+                    <p>Durdle Door → Lyme Regis → Dartmoor • ca. 120 km</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">09:45</div>
+                    <div class="timeline-content">
+                        <h4>The Cobb & Harbour</h4>
+                        <p>Jane Austen Drehort (1h)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">10:45</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Fossilien suchen im Regen!</h4>
+                        <p>Charmouth Beach (2h)</p>
+                        <ul>
+                            <li>2 Stunden intensive Fossiliensuche</li>
+                            <li>Trotz strömendem Regen durchgehalten!</li>
+                            <li>Ammoniten & Belemniten gefunden</li>
+                            <li>Authentisches Jurassic Coast Erlebnis</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">12:45</div>
+                    <div class="timeline-content">
+                        <h4>Aufwärmen & Trocknen</h4>
+                        <p>Heißer Kaffee, Fossil-Shops, Museum (1h 15min)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">15:45</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Haytor Rocks</h4>
+                        <p>Dartmoor Granitfelsen (1,5h)</p>
+                        <ul>
+                            <li>Panorama-Aussicht über Dartmoor</li>
+                            <li>Dartmoor Ponys beobachten</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-info">
+                    <h4>🏕️ Übernachtung: Langstone Manor Camping</h4>
+                    <p>Tavistock, Dartmoor</p>
+                </div>
+            </div>
+
+            <!-- Tag 8 -->
+            <div class="day-timeline">
+                <div class="day-timeline-header">
+                    <h2>Tag 8 - Sonntag, 31. August 2025</h2>
+                    <p>Dartmoor → Newquay • ca. 80 km</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">10:00</div>
+                    <div class="timeline-content">
+                        <h4>Widecombe-in-the-Moor</h4>
+                        <p>Cathedral of the Moor (1h)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">11:45</div>
+                    <div class="timeline-content">
+                        <h4>Burrator Reservoir</h4>
+                        <p>Wunderschöner Stausee, Picknick (45 Min)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">14:30</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Check-in The Headland Hotel</h4>
+                        <p>4-Sterne Luxushotel über Fistral Beach</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">15:30</div>
+                    <div class="timeline-content">
+                        <h4>Fistral Beach</h4>
+                        <p>Weltberühmter Surfstrand (1,5h)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">17:30</div>
+                    <div class="timeline-content">
+                        <h4>Hotel Pool & Spa</h4>
+                        <p>Entspannung nach der Fahrt (1h)</p>
+                    </div>
+                </div>
+                
+                <div class="accommodation-info">
+                    <h4>🏨 Übernachtung: The Headland Hotel</h4>
+                    <p>Newquay, Cornwall (1. Nacht von 2)</p>
+                </div>
+            </div>
+
+            <!-- Tag 9 -->
+            <div class="day-timeline">
+                <div class="day-timeline-header">
+                    <h2>Tag 9 - Montag, 1. September 2025</h2>
+                    <p>Entspannungstag im Headland Hotel</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">10:00</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Hotel Pool & Wellness</h4>
+                        <p>Schwimmen, Spa, Sauna (2h)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">12:00</div>
+                    <div class="timeline-content">
+                        <h4>Fistral Beach</h4>
+                        <p>Strandspaziergang, Beach-Café (2h)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">14:30</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Afternoon Tea im Hotel</h4>
+                        <p>Traditioneller englischer Afternoon Tea (1,5h)</p>
+                        <ul>
+                            <li>Scones, Sandwiches, Kuchen</li>
+                            <li>Entspannung in der Hotel-Lounge</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">16:00</div>
+                    <div class="timeline-content">
+                        <h4>Newquay Stadtzentrum</h4>
+                        <p>Bummel, Souvenir-Shopping (2h)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">18:30</div>
+                    <div class="timeline-content">
+                        <h4>Cocktails an der Hotel-Bar</h4>
+                        <p>Sundowner mit Meerblick</p>
+                    </div>
+                </div>
+                
+                <div class="accommodation-info">
+                    <h4>🏨 Übernachtung: The Headland Hotel</h4>
+                    <p>Newquay, Cornwall (2. Nacht)</p>
+                </div>
+            </div>
+
+            <!-- Tag 10 -->
+            <div class="day-timeline">
+                <div class="day-timeline-header">
+                    <h2>Tag 10 - Dienstag, 2. September 2025</h2>
+                    <p>Eden Project & Mevagissey • ca. 60 km</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">10:00</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Eden Project - Rainforest Biome</h4>
+                        <p>Tropischer Regenwald unter Kuppeln (2h)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">13:00</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Zip Line über die Biome</h4>
+                        <p>Adrenalin pur! (45 Min)</p>
+                        <ul>
+                            <li>Spektakuläre Aussicht von oben</li>
+                            <li>Einzigartige Perspektive</li>
+                            <li>Unvergessliches Erlebnis</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">13:45</div>
+                    <div class="timeline-content">
+                        <h4>Mediterranean Biome</h4>
+                        <p>Mediterrane Pflanzen (1,5h)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">15:15</div>
+                    <div class="timeline-content">
+                        <h4>Core Building & Outdoor Gardens</h4>
+                        <p>Ausstellungen & Eden Shop (1h 15min)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">17:00</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Mevagissey Fischerhafen</h4>
+                        <p>Authentischer Cornish Hafen (2h)</p>
+                        <ul>
+                            <li>Aktive Fischer beobachten</li>
+                            <li>The Kings Arms Pub</li>
+                            <li>Fish & Chips</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-info">
+                    <h4>🏕️ Übernachtung: East Crinnis Holiday Park</h4>
+                    <p>Par, Cornwall (1. Nacht von 3)</p>
+                </div>
+            </div>
+
+            <!-- Tag 11 -->
+            <div class="day-timeline">
+                <div class="day-timeline-header">
+                    <h2>Tag 11 - Mittwoch, 3. September 2025</h2>
+                    <p>St. Ives & St. Michael's Mount • 106 km Rundfahrt</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">10:00</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>St. Ives Harbour & Altstadt</h4>
+                        <p>Malerischer Fischerhafen (6,5h ausführlich)</p>
+                        <ul>
+                            <li>Cobbled Streets & Galerien</li>
+                            <li>Künstlerviertel erkunden</li>
+                            <li>Harbour-Restaurant Mittagessen</li>
+                            <li>Porthmeor Beach - Künstlerstrand</li>
+                            <li>The Island & St. Nicholas Chapel</li>
+                            <li>Künstlergalerien & Shopping</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">16:46</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Marazion & St. Michael's Mount</h4>
+                        <p>Klosterinsel (1h)</p>
+                        <ul>
+                            <li>Märchenschloss auf Granitfelsen</li>
+                            <li>Mount's Bay Panorama</li>
+                            <li>Marazion Beach</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">19:30</div>
+                    <div class="timeline-content">
+                        <h4>Rückkehr East Crinnis</h4>
+                        <p>Entspannung nach perfektem Cornwall-Tag</p>
+                    </div>
+                </div>
+                
+                <div class="accommodation-info">
+                    <h4>🏕️ Übernachtung: East Crinnis Holiday Park</h4>
+                    <p>Par, Cornwall (2. Nacht)</p>
+                </div>
+            </div>
+
+            <!-- Tag 12 -->
+            <div class="day-timeline">
+                <div class="day-timeline-header">
+                    <h2>Tag 12 - Donnerstag, 4. September 2025</h2>
+                    <p>Puzzlewood → Bourton-on-the-Water • ca. 290 km</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">11:30</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Puzzlewood</h4>
+                        <p>Star Wars Drehort (2,5h)</p>
+                        <ul>
+                            <li>Forest Moon of Endor</li>
+                            <li>Mystische Felsformationen</li>
+                            <li>Märchenhafte Waldwege</li>
+                            <li>Ancient Iron Age Settlement</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">15:00</div>
+                    <div class="timeline-content">
+                        <h4>Check-in The Wildings - Tippi</h4>
+                        <p>Glamping mit Cotswolds-Aussicht</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">16:00</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Bourton-on-the-Water</h4>
+                        <p>Venice of the Cotswolds (2,5h)</p>
+                        <ul>
+                            <li>River Windrush & 6 Steinbrücken</li>
+                            <li>The Model Village - 1/9 Miniatur</li>
+                            <li>Traditional Tea Rooms</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-info">
+                    <h4>🏕️ Übernachtung: The Wildings Campsite - Tippi</h4>
+                    <p>Bourton-on-the-Water, Cotswolds</p>
+                </div>
+            </div>
+
+            <!-- Tag 13 -->
+            <div class="day-timeline">
+                <div class="day-timeline-header">
+                    <h2>Tag 13 - Freitag, 5. September 2025</h2>
+                    <p>Oxford ganzer Tag • ca. 50 km</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">10:30</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Christ Church College</h4>
+                        <p>Harry Potter Drehorte (2h)</p>
+                        <ul>
+                            <li>Great Hall = Hogwarts Hall</li>
+                            <li>Tom Quad - größter Quadrangle</li>
+                            <li>Christ Church Cathedral</li>
+                            <li>Alice im Wunderland Verbindung</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">13:30</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Bodleian Library</h4>
+                        <p>Eine der ältesten Bibliotheken Europas (1h)</p>
+                        <ul>
+                            <li>Duke Humfrey's Library</li>
+                            <li>Divinity School - gotische Architektur</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">14:45</div>
+                    <div class="timeline-content">
+                        <h4>Radcliffe Camera</h4>
+                        <p>Ikonisches Oxford-Gebäude (30 Min)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">15:30</div>
+                    <div class="timeline-content">
+                        <h4>Covered Market</h4>
+                        <p>Historischer Markt seit 1774 (1h)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">17:45</div>
+                    <div class="timeline-content">
+                        <h4>Check-in Malmaison Oxford</h4>
+                        <p>Boutique-Hotel in ehemaliger Gefängnis-Architektur</p>
+                    </div>
+                </div>
+                
+                <div class="accommodation-info">
+                    <h4>🏨 Übernachtung: Malmaison Oxford</h4>
+                    <p>Oxford, Oxfordshire</p>
+                </div>
+            </div>
+
+            <!-- Tag 14 -->
+            <div class="day-timeline">
+                <div class="day-timeline-header">
+                    <h2>Tag 14 - Samstag, 6. September 2025</h2>
+                    <p>Oxford → Winchester → Rye • ca. 180 km</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">11:15</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Winchester Cathedral</h4>
+                        <p>Längste mittelalterliche Kathedrale Europas (1,5h)</p>
+                        <ul>
+                            <li>Jane Austen's Grab</li>
+                            <li>Gotische Architektur</li>
+                            <li>Krypta & Holy Sepulchre Chapel</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">13:00</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>The Great Hall</h4>
+                        <p>King Arthur's Round Table (1h)</p>
+                        <ul>
+                            <li>Original aus 13. Jahrhundert!</li>
+                            <li>Artus-Legende & Geschichte</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">14:45</div>
+                    <div class="timeline-content">
+                        <h4>Winchester City Museum</h4>
+                        <p>Alfred the Great (30 Min)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">17:00</div>
+                    <div class="timeline-content">
+                        <h4>Check-in Hare & Hounds</h4>
+                        <p>Campingplatz in Rye</p>
+                    </div>
+                </div>
+                
+                <div class="accommodation-info">
+                    <h4>🏕️ Übernachtung: Hare & Hounds Campingplatz</h4>
+                    <p>Rye, East Sussex</p>
+                </div>
+            </div>
+
+            <!-- Tag 15 -->
+            <div class="day-timeline">
+                <div class="day-timeline-header">
+                    <h2>Tag 15 - Sonntag, 7. September 2025</h2>
+                    <p>Rye → Camber Sands → Heimreise • ca. 50 km + Le Shuttle</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">10:15</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Rye Altstadt</h4>
+                        <p>England's schönste mittelalterliche Stadt (2h)</p>
+                        <ul>
+                            <li>Cobbled Streets - Kopfsteinpflaster</li>
+                            <li>Mermaid Inn - historisches Gasthaus (1420)</li>
+                            <li>Ypres Tower - 13. Jahrhundert</li>
+                            <li>St. Mary's Church</li>
+                            <li>Lamb House - Henry James</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">12:45</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Camber Sands</h4>
+                        <p>7 Meilen goldener Sandstrand (2h 45min)</p>
+                        <ul>
+                            <li>Einer der schönsten Strände Englands</li>
+                            <li>Dünenlandschaft</li>
+                            <li>Beach-Picknick mit Fish & Chips</li>
+                            <li>Letzter Strand der Reise</li>
+                            <li>Abschied vom Meer</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">17:24</div>
+                    <div class="timeline-content highlight-activity">
+                        <h4>Le Shuttle Folkestone → Calais</h4>
+                        <p>Rückfahrt durch den Eurotunnel</p>
+                        <p>Ankunft Calais: 18:59 (deutsche Zeit)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-time">01:30</div>
+                    <div class="timeline-content">
+                        <h4>Ankunft Leonberg</h4>
+                        <p>Ende einer unvergesslichen 15-Tage-Reise! 🇬🇧✨</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 England Trip - Unvergessliche 15 Tage durch Südengland</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

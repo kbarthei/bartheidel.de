@@ -2,33 +2,90 @@
 <html lang="de">
 <head>
   <meta charset="utf-8">
-  <title>Urlaub – bartheidel.de</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Urlaub – Kai Bartheidel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-  <header>
-    <h1>Urlaub</h1>
-    <nav>
-      <a href="../index.html">Zurück</a>
-    </nav>
-  </header>
-  <main>
-    <section>
-      <h2>2025</h2>
-      <ul>
-        <li><a href="2025/Sommerurlaub/index.html">Sommerurlaub 2025</a></li>
-        <li><a href="2025/Winterurlaub/index.html">Winterurlaub 2025</a></li>
-      </ul>
-    </section>
-    <section>
-      <h2>2024</h2>
-      <ul>
-        <li><a href="2024/index.html">Details 2024</a></li>
-      </ul>
-    </section>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">← Kai Bartheidel</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="section-inner">
+      <p class="section-eyebrow">Privater Bereich</p>
+      <h1>Urlaubserinnerungen</h1>
+      <p class="page-intro">Reisen nach Jahr und Reise organisiert.</p>
+    </div>
+  </div>
+
+  <main class="section">
+    <div class="section-inner">
+
+      <!-- ── 2025 ── -->
+      <div class="year-block">
+        <h2 class="year-heading">2025</h2>
+        <div class="trip-grid">
+          <a href="2025/EnglandBulli/index.html" class="trip-card">
+            <div class="trip-icon">🚐</div>
+            <div>
+              <p class="trip-name">England mit dem Bulli</p>
+              <p class="trip-meta">2025</p>
+            </div>
+          </a>
+          <a href="2025/Sommerurlaub/index.html" class="trip-card">
+            <div class="trip-icon">☀️</div>
+            <div>
+              <p class="trip-name">Sommerurlaub</p>
+              <p class="trip-meta">2025</p>
+            </div>
+          </a>
+          <a href="2025/Winterurlaub/index.html" class="trip-card">
+            <div class="trip-icon">❄️</div>
+            <div>
+              <p class="trip-name">Winterurlaub</p>
+              <p class="trip-meta">2025</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── 2024 ── -->
+      <div class="year-block">
+        <h2 class="year-heading">2024</h2>
+        <div class="trip-grid">
+          <a href="2024/index.html" class="trip-card">
+            <div class="trip-icon">🌍</div>
+            <div>
+              <p class="trip-name">Urlaub 2024</p>
+              <p class="trip-meta">2024</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!--
+        Neue Reisen hinzufügen:
+        1. Ordner anlegen: urlaub/<JAHR>/<Reisename>/index.html
+        2. Hier eine neue .trip-card eintragen (ggf. neues .year-block für neues Jahr).
+      -->
+
+    </div>
   </main>
-  <footer>
-    © 2026 bartheidel.de
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>© 2026 Kai Bartheidel</span>
+      <a href="../impressum.html">Impressum</a>
+    </div>
   </footer>
+
 </body>
 </html>

@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tagesplan - 15 Tage Südengland</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .day-detail {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-left: 6px solid #6b7280;
+        }
+        
+        .day-detail.completed {
+            border-left-color: #10b981;
+        }
+        
+        .day-detail.planned {
+            border-left-color: #3b82f6;
+        }
+        
+        .day-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .day-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #6b7280;
+            min-width: 80px;
+        }
+        
+        .day-detail.completed .day-number {
+            color: #10b981;
+        }
+        
+        .day-detail.planned .day-number {
+            color: #3b82f6;
+        }
+        
+        .day-info h2 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.5rem;
+        }
+        
+        .day-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        
+        .meta-item {
+            background: #f3f4f6;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-list {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+        
+        .activity-list h4 {
+            margin-bottom: 1rem;
+            color: #1f2937;
+            font-size: 1.1rem;
+        }
+        
+        .activity-list ul {
+            list-style: none;
+        }
+        
+        .activity-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e5e7eb;
+            color: #6b7280;
+        }
+        
+        .activity-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .accommodation-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .accommodation-card h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .accommodation-card p {
+            opacity: 0.9;
+            margin: 0.3rem 0;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 1rem;
+        }
+        
+        .status-completed {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .status-planned {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="title">📅 Detaillierter Tagesplan</h1>
+            <p class="subtitle">Alle 15 Tage Ihrer England-Reise im Detail</p>
+        </div>
+    </header>
+
+    <nav class="navigation">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link">Übersicht</a></li>
+                <li><a href="tagesplan.html" class="nav-link active">Tagesplan</a></li>
+                <li><a href="detailliert.html" class="nav-link">Detailliert</a></li>
+                <li><a href="buchungen.html" class="nav-link">Buchungen</a></li>
+                <li><a href="karte.html" class="nav-link">Karte</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main">
+        <div class="container">
+            <!-- Tag 1 -->
+            <div class="day-detail completed">
+                <div class="day-header">
+                    <div class="day-number">1</div>
+                    <div class="day-info">
+                        <h2>24. August - Anreise → Canterbury <span class="status-badge status-completed">✅ Abgeschlossen</span></h2>
+                        <div class="day-meta">
+                            <span class="meta-item">📍 Leonberg → Canterbury</span>
+                            <span class="meta-item">🚗 ca. 750 km</span>
+                            <span class="meta-item">⏱️ 03:00 - 18:00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-grid">
+                    <div class="activity-list">
+                        <h4>🎯 Hauptaktivitäten</h4>
+                        <ul>
+                            <li>✅ Anreise nach Calais</li>
+                            <li>✅ DFDS-Fährüberfahrt nach Dover (11:50-12:20)</li>
+                            <li>✅ Weiterfahrt nach Canterbury</li>
+                            <li>✅ Canterbury Cathedral - UNESCO-Weltkulturerbe</li>
+                            <li>✅ Thomas Becket Shrine - Pilgerort seit 1170</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <h4>⏰ Zeitplan</h4>
+                        <ul>
+                            <li>03:00 - Abfahrt Leonberg</li>
+                            <li>11:50 CET - Fähre Calais → Dover</li>
+                            <li>12:30 GMT - Ankunft Dover</li>
+                            <li>13:15-17:15 - Canterbury Cathedral (4h)</li>
+                            <li>18:00 - Check-in Coxhill Camping</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-card">
+                    <h4>🏕️ Coxhill Camping</h4>
+                    <p>📍 Shepherdswell, Dover, Kent</p>
+                    <p>✅ Gebucht - Ruhiger Campingplatz in der Nähe von Canterbury</p>
+                </div>
+            </div>
+
+            <!-- Tag 2 -->
+            <div class="day-detail completed">
+                <div class="day-header">
+                    <div class="day-number">2</div>
+                    <div class="day-info">
+                        <h2>25. August - Brighton → Portsmouth <span class="status-badge status-completed">✅ Abgeschlossen</span></h2>
+                        <div class="day-meta">
+                            <span class="meta-item">📍 Canterbury → Brighton → Portsmouth</span>
+                            <span class="meta-item">🚗 ca. 200 km</span>
+                            <span class="meta-item">⏱️ 09:30 - 19:30</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-grid">
+                    <div class="activity-list">
+                        <h4>🎯 Hauptaktivitäten</h4>
+                        <ul>
+                            <li>✅ Seven Sisters Kreidefelsen</li>
+                            <li>✅ The Lanes Brighton - berühmte Boutiquen-Gassen</li>
+                            <li>✅ Brighton Palace Pier - viktorianischer Vergnügungspier</li>
+                            <li>✅ Brighton Seafront - 7 Meilen Promenade</li>
+                            <li>✅ Portsmouth Historic Dockyard</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <h4>⏰ Zeitplan</h4>
+                        <ul>
+                            <li>09:30 - Abreise Coxhill Camping</li>
+                            <li>11:15-13:00 - The Lanes Brighton</li>
+                            <li>14:00-15:30 - Brighton Palace Pier</li>
+                            <li>17:00 - Check-in Florence House Hotel</li>
+                            <li>17:30-19:00 - Portsmouth Historic Dockyard</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-card">
+                    <h4>🏨 Florence House Hotel</h4>
+                    <p>📍 Portsmouth, Hampshire</p>
+                    <p>✅ Gebucht - Charmantes viktorianisches Hotel in Southsea</p>
+                </div>
+            </div>
+
+            <!-- Tag 3 -->
+            <div class="day-detail completed">
+                <div class="day-header">
+                    <div class="day-number">3</div>
+                    <div class="day-info">
+                        <h2>26. August - Portsmouth & Isle of Wight <span class="status-badge status-completed">✅ Abgeschlossen</span></h2>
+                        <div class="day-meta">
+                            <span class="meta-item">📍 Portsmouth → Isle of Wight</span>
+                            <span class="meta-item">⛴️ Fähre + 20 km</span>
+                            <span class="meta-item">⏱️ 08:00 - 17:00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-grid">
+                    <div class="activity-list">
+                        <h4>🎯 Hauptaktivitäten</h4>
+                        <ul>
+                            <li>✅ Portsmouth Historic Dockyard (optional)</li>
+                            <li>✅ Fährüberfahrt zur Isle of Wight (10:00)</li>
+                            <li>✅ Ankunft Fishbourne Terminal</li>
+                            <li>✅ Fahrt nach Brighstone</li>
+                            <li>✅ Check-in Grange Farm Camping</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <h4>⏰ Zeitplan</h4>
+                        <ul>
+                            <li>08:00 - Abreise Florence House Hotel</li>
+                            <li>10:00 - Fähre Portsmouth → Fishbourne</li>
+                            <li>10:45 - Ankunft Isle of Wight</li>
+                            <li>11:30 - Ankunft Grange Farm</li>
+                            <li>14:00-17:00 - Erste Erkundung der Insel</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-card">
+                    <h4>🏕️ Grange Farm Camping</h4>
+                    <p>📍 Brighstone, Isle of Wight</p>
+                    <p>✅ Gebucht - 3 Nächte (26.-28. August)</p>
+                </div>
+            </div>
+
+            <!-- Tag 4 -->
+            <div class="day-detail completed">
+                <div class="day-header">
+                    <div class="day-number">4</div>
+                    <div class="day-info">
+                        <h2>27. August - Isle of Wight Rundtour <span class="status-badge status-completed">✅ Abgeschlossen</span></h2>
+                        <div class="day-meta">
+                            <span class="meta-item">📍 Isle of Wight Rundfahrt</span>
+                            <span class="meta-item">🚗 ca. 80 km</span>
+                            <span class="meta-item">⏱️ 09:00 - 18:00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-grid">
+                    <div class="activity-list">
+                        <h4>🎯 Hauptaktivitäten</h4>
+                        <ul>
+                            <li>✅ Carisbrooke Castle mit berühmten Eseln</li>
+                            <li>✅ Cowes - weltberühmter Segelort</li>
+                            <li>✅ The Needles & Alum Bay</li>
+                            <li>✅ Freshwater Bay & Tennyson Monument</li>
+                            <li>✅ Küstenwanderung mit spektakulären Ausblicken</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <h4>⏰ Zeitplan</h4>
+                        <ul>
+                            <li>09:00 - Abreise Grange Farm</li>
+                            <li>10:00-12:00 - Carisbrooke Castle</li>
+                            <li>13:00-14:30 - Cowes Besichtigung</li>
+                            <li>15:30-17:00 - The Needles</li>
+                            <li>18:00 - Rückkehr Grange Farm</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-card">
+                    <h4>🏕️ Grange Farm Camping</h4>
+                    <p>📍 Brighstone, Isle of Wight</p>
+                    <p>✅ Gebucht - 2. Nacht</p>
+                </div>
+            </div>
+
+            <!-- Tag 5 -->
+            <div class="day-detail completed">
+                <div class="day-header">
+                    <div class="day-number">5</div>
+                    <div class="day-info">
+                        <h2>28. August - Isle of Wight → New Forest <span class="status-badge status-completed">✅ Abgeschlossen</span></h2>
+                        <div class="day-meta">
+                            <span class="meta-item">📍 Isle of Wight → New Forest</span>
+                            <span class="meta-item">⛴️ Fähre + 60 km</span>
+                            <span class="meta-item">⏱️ 09:00 - 17:00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-grid">
+                    <div class="activity-list">
+                        <h4>🎯 Hauptaktivitäten</h4>
+                        <ul>
+                            <li>✅ The Needles Landmark Attraction</li>
+                            <li>✅ Osborne House (optional)</li>
+                            <li>✅ Fährüberfahrt Yarmouth → Lymington (12:05)</li>
+                            <li>✅ Brockenhurst - Hauptstadt des New Forest</li>
+                            <li>✅ Wilde Ponys beobachten</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <h4>⏰ Zeitplan</h4>
+                        <ul>
+                            <li>09:00 - Abreise Grange Farm</li>
+                            <li>10:00-11:30 - The Needles</li>
+                            <li>12:05 - Fähre Yarmouth → Lymington</li>
+                            <li>13:00 - Ankunft New Forest</li>
+                            <li>15:00 - Check-in Montagu Arms Hotel</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-card">
+                    <h4>🏨 The Montagu Arms Hotel</h4>
+                    <p>📍 Beaulieu, New Forest</p>
+                    <p>✅ Gebucht - Luxuriöses Landhotel im Herzen des New Forest</p>
+                </div>
+            </div>
+
+            <!-- Tag 6 -->
+            <div class="day-detail completed">
+                <div class="day-header">
+                    <div class="day-number">6</div>
+                    <div class="day-info">
+                        <h2>29. August - New Forest → Durdle Door <span class="status-badge status-completed">✅ Abgeschlossen</span></h2>
+                        <div class="day-meta">
+                            <span class="meta-item">📍 New Forest → Durdle Door</span>
+                            <span class="meta-item">🚗 ca. 80 km</span>
+                            <span class="meta-item">⏱️ 10:00 - 18:00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-grid">
+                    <div class="activity-list">
+                        <h4>🎯 Hauptaktivitäten</h4>
+                        <ul>
+                            <li>✅ Bournemouth Beach & Pier</li>
+                            <li>✅ Lower Gardens Bournemouth</li>
+                            <li>✅ Lulworth Cove - perfekte Bucht</li>
+                            <li>✅ Durdle Door - berühmter Kalksteinbogen</li>
+                            <li>✅ Küstenwanderung an der Jurassic Coast</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <h4>⏰ Zeitplan</h4>
+                        <ul>
+                            <li>10:00 - Abreise Montagu Arms</li>
+                            <li>11:00-13:00 - Bournemouth</li>
+                            <li>14:00-15:00 - Lulworth Cove</li>
+                            <li>15:30-17:30 - Durdle Door</li>
+                            <li>18:00 - Check-in Holiday Park</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-card">
+                    <h4>🏕️ Durdle Door Holiday Park</h4>
+                    <p>📍 Lulworth, Dorset</p>
+                    <p>✅ Gebucht - Direkt an der UNESCO Jurassic Coast</p>
+                </div>
+            </div>
+
+            <!-- Tag 7 -->
+            <div class="day-detail completed">
+                <div class="day-header">
+                    <div class="day-number">7</div>
+                    <div class="day-info">
+                        <h2>30. August - Lyme Regis → Dartmoor <span class="status-badge status-completed">✅ Abgeschlossen</span></h2>
+                        <div class="day-meta">
+                            <span class="meta-item">📍 Durdle Door → Dartmoor</span>
+                            <span class="meta-item">🚗 ca. 120 km</span>
+                            <span class="meta-item">⏱️ 09:00 - 18:00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-grid">
+                    <div class="activity-list">
+                        <h4>🎯 Hauptaktivitäten</h4>
+                        <ul>
+                            <li>✅ Lyme Regis - Fossilien suchen am Strand (4h)</li>
+                            <li>✅ The Cobb - Jane Austen's Persuasion Drehort</li>
+                            <li>✅ Lyme Regis Museum & Marine Aquarium</li>
+                            <li>✅ Haytor Rocks - Dartmoor Granitfelsen</li>
+                            <li>✅ Dartmoor Ponys beobachten</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <h4>⏰ Zeitplan</h4>
+                        <ul>
+                            <li>09:00 - Abreise Durdle Door</li>
+                            <li>10:00-14:00 - Lyme Regis (4h)</li>
+                            <li>14:00 - Fahrt nach Dartmoor</li>
+                            <li>16:00 - Ankunft Dartmoor</li>
+                            <li>16:30-18:00 - Haytor Rocks</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-card">
+                    <h4>🏕️ Langstone Manor Camping</h4>
+                    <p>📍 Tavistock, Dartmoor</p>
+                    <p>✅ Gebucht - Mitten im Dartmoor National Park</p>
+                </div>
+            </div>
+
+            <!-- Tag 8 -->
+            <div class="day-detail completed">
+                <div class="day-header">
+                    <div class="day-number">8</div>
+                    <div class="day-info">
+                        <h2>31. August - Dartmoor → Newquay <span class="status-badge status-completed">✅ Abgeschlossen</span></h2>
+                        <div class="day-meta">
+                            <span class="meta-item">📍 Dartmoor → Newquay</span>
+                            <span class="meta-item">🚗 ca. 80 km</span>
+                            <span class="meta-item">⏱️ 10:00 - 19:00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-grid">
+                    <div class="activity-list">
+                        <h4>🎯 Hauptaktivitäten</h4>
+                        <ul>
+                            <li>✅ Burrator Reservoir - spektakulärer Stausee</li>
+                            <li>✅ Widecombe-in-the-Moor - Cathedral of the Moor</li>
+                            <li>✅ Haytor Rocks - Panoramablick</li>
+                            <li>✅ Ankunft The Headland Hotel</li>
+                            <li>✅ Pool & Entspannung im 4-Sterne Hotel</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <h4>⏰ Zeitplan</h4>
+                        <ul>
+                            <li>10:00 - Abreise Langstone Manor</li>
+                            <li>10:30-11:15 - Burrator Reservoir</li>
+                            <li>11:45-12:30 - Widecombe-in-the-Moor</li>
+                            <li>13:00-13:45 - Haytor Rocks</li>
+                            <li>15:30 - Ankunft The Headland Hotel</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-card">
+                    <h4>🏨 The Headland Hotel</h4>
+                    <p>📍 Newquay, Cornwall</p>
+                    <p>✅ Gebucht - 4-Sterne Luxushotel direkt über Fistral Beach (2 Nächte)</p>
+                </div>
+            </div>
+
+            <!-- Tag 9 -->
+            <div class="day-detail completed">
+                <div class="day-header">
+                    <div class="day-number">9</div>
+                    <div class="day-info">
+                        <h2>1. September - Newquay Entspannungstag <span class="status-badge status-completed">✅ Abgeschlossen</span></h2>
+                        <div class="day-meta">
+                            <span class="meta-item">📍 The Headland Hotel</span>
+                            <span class="meta-item">🏖️ Lokale Aktivitäten</span>
+                            <span class="meta-item">⏱️ Ganztägig</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-grid">
+                    <div class="activity-list">
+                        <h4>🎯 Hauptaktivitäten</h4>
+                        <ul>
+                            <li>✅ Pool im Hotel - Entspannung und Schwimmen</li>
+                            <li>✅ Afternoon Tea - Genuss im Hotel</li>
+                            <li>✅ Fistral Beach - weltberühmter Surfstrand</li>
+                            <li>✅ Spaziergang am Strand</li>
+                            <li>✅ Chillen im Hotel - Luxus-Erholung</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <h4>⏰ Zeitplan</h4>
+                        <ul>
+                            <li>Vormittag - Pool im Hotel</li>
+                            <li>Nachmittag - Afternoon Tea</li>
+                            <li>15:00-17:00 - Fistral Beach</li>
+                            <li>17:30-19:00 - Chillen im Hotel</li>
+                            <li>19:30 - Abendessen</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-card">
+                    <h4>🏨 The Headland Hotel</h4>
+                    <p>📍 Newquay, Cornwall</p>
+                    <p>✅ Gebucht - 2. Nacht im Luxushotel</p>
+                </div>
+            </div>
+
+            <!-- Tag 10 -->
+            <div class="day-detail completed">
+                <div class="day-header">
+                    <div class="day-number">10</div>
+                    <div class="day-info">
+                        <h2>2. September - Eden Project & Mevagissey <span class="status-badge status-completed">✅ Abgeschlossen</span></h2>
+                        <div class="day-meta">
+                            <span class="meta-item">📍 Newquay → Eden → East Crinnis</span>
+                            <span class="meta-item">🚗 ca. 60 km</span>
+                            <span class="meta-item">⏱️ 10:00 - 19:00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-grid">
+                    <div class="activity-list">
+                        <h4>🎯 Hauptaktivitäten</h4>
+                        <ul>
+                            <li>✅ Eden Project - Regenwald & Mittelmeer Biome</li>
+                            <li>✅ Zip Line über die Biome</li>
+                            <li>✅ Spektakuläre Gewächshäuser</li>
+                            <li>✅ Mevagissey - authentischer Fischerhafen</li>
+                            <li>✅ Entspannung am Strand bei East Crinnis</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <h4>⏰ Zeitplan</h4>
+                        <ul>
+                            <li>10:00 - Abreise The Headland Hotel</li>
+                            <li>11:00-16:30 - Eden Project</li>
+                            <li>17:15-18:15 - Mevagissey</li>
+                            <li>18:30 - Check-in East Crinnis</li>
+                            <li>19:00-20:00 - Entspannung am Strand</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-card">
+                    <h4>🏕️ East Crinnis Holiday Park</h4>
+                    <p>📍 Par, Cornwall</p>
+                    <p>✅ Gebucht - Preisgekrönter Campingplatz mit Meerblick (3 Nächte)</p>
+                </div>
+            </div>
+
+            <!-- Tag 11 -->
+            <div class="day-detail completed">
+                <div class="day-header">
+                    <div class="day-number">11</div>
+                    <div class="day-info">
+                        <h2>3. September - St. Ives & St. Michael's Mount <span class="status-badge status-completed">✅ Abgeschlossen</span></h2>
+                        <div class="day-meta">
+                            <span class="meta-item">📍 East Crinnis → St. Ives → Marazion</span>
+                            <span class="meta-item">🚗 106 km Rundfahrt</span>
+                            <span class="meta-item">⏱️ 10:00 - 19:30</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-grid">
+                    <div class="activity-list">
+                        <h4>🎯 Hauptaktivitäten</h4>
+                        <ul>
+                            <li>✅ St. Ives Harbour - malerischer Fischerhafen (5,5h)</li>
+                            <li>✅ Porthmeor Beach - Künstlerstrand</li>
+                            <li>✅ The Island - St. Nicholas Kapelle</li>
+                            <li>✅ Künstlerviertel - Galerien & Ateliers</li>
+                            <li>✅ St. Michael's Mount - Klosterinsel bei Marazion</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <h4>⏰ Zeitplan</h4>
+                        <ul>
+                            <li>10:00 - Abreise East Crinnis</li>
+                            <li>11:00-16:30 - St. Ives (5,5h)</li>
+                            <li>16:46-17:45 - Marazion & St. Michael's Mount</li>
+                            <li>17:45 - Abreise Marazion</li>
+                            <li>19:30 - Rückkehr East Crinnis</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-card">
+                    <h4>🏕️ East Crinnis Holiday Park</h4>
+                    <p>📍 Par, Cornwall</p>
+                    <p>✅ Gebucht - 2. Nacht</p>
+                </div>
+            </div>
+
+            <!-- Tag 12 -->
+            <div class="day-detail completed">
+                <div class="day-header">
+                    <div class="day-number">12</div>
+                    <div class="day-info">
+                        <h2>4. September - Puzzlewood → Cotswolds <span class="status-badge status-completed">✅ Abgeschlossen</span></h2>
+                        <div class="day-meta">
+                            <span class="meta-item">📍 Cornwall → Forest of Dean → Cotswolds</span>
+                            <span class="meta-item">🚗 ca. 290 km</span>
+                            <span class="meta-item">⏱️ 09:00 - 19:00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-grid">
+                    <div class="activity-list">
+                        <h4>🎯 Hauptaktivitäten</h4>
+                        <ul>
+                            <li>✅ Puzzlewood - Star Wars Drehort (2,5h)</li>
+                            <li>✅ Mystische Felsformationen & Märchenwälder</li>
+                            <li>✅ Bourton-on-the-Water - Venice of the Cotswolds (3h)</li>
+                            <li>✅ River Windrush - malerische Steinbrücken</li>
+                            <li>✅ The Wildings Tippi - Glamping-Erlebnis</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <h4>⏰ Zeitplan</h4>
+                        <ul>
+                            <li>09:00 - Abreise East Crinnis</li>
+                            <li>11:30-14:00 - Puzzlewood (2,5h)</li>
+                            <li>14:54 - Ankunft Bourton-on-the-Water</li>
+                            <li>15:00 - Check-in The Wildings</li>
+                            <li>15:30-18:30 - Bourton-on-the-Water (3h)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-card">
+                    <h4>🏕️ The Wildings Campsite - Tippi</h4>
+                    <p>📍 Bourton-on-the-Water, Cotswolds</p>
+                    <p>✅ Gebucht - Tippi-Glamping mit spektakulärer Cotswolds-Aussicht</p>
+                </div>
+            </div>
+
+            <!-- Tag 13 -->
+            <div class="day-detail completed">
+                <div class="day-header">
+                    <div class="day-number">13</div>
+                    <div class="day-info">
+                        <h2>5. September - Oxford ganzer Tag <span class="status-badge status-completed">✅ Abgeschlossen</span></h2>
+                        <div class="day-meta">
+                            <span class="meta-item">📍 Cotswolds → Oxford</span>
+                            <span class="meta-item">🚗 ca. 50 km</span>
+                            <span class="meta-item">⏱️ 09:00 - 20:00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-grid">
+                    <div class="activity-list">
+                        <h4>🎯 Hauptaktivitäten</h4>
+                        <ul>
+                            <li>✅ Christ Church College - Harry Potter Drehorte (2h)</li>
+                            <li>✅ Bodleian Library - eine der ältesten Bibliotheken Europas</li>
+                            <li>✅ Radcliffe Camera - ikonisches Oxford-Gebäude</li>
+                            <li>✅ Covered Market - historischer Markt seit 1774</li>
+                            <li>✅ Oxford Stadtzentrum - Abendspaziergang</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <h4>⏰ Zeitplan</h4>
+                        <ul>
+                            <li>09:00 - Abreise The Wildings</li>
+                            <li>10:00 - Ankunft Oxford</li>
+                            <li>10:30-12:30 - Christ Church College</li>
+                            <li>14:30-15:30 - Bodleian Library</li>
+                            <li>17:45 - Check-in Malmaison Oxford</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-card">
+                    <h4>🏨 Malmaison Oxford</h4>
+                    <p>📍 Oxford, Oxfordshire</p>
+                    <p>✅ Gebucht - Boutique-Hotel in ehemaliger Gefängnis-Architektur</p>
+                </div>
+            </div>
+
+            <!-- Tag 14 -->
+            <div class="day-detail completed">
+                <div class="day-header">
+                    <div class="day-number">14</div>
+                    <div class="day-info">
+                        <h2>6. September - Winchester → Rye <span class="status-badge status-completed">✅ Abgeschlossen</span></h2>
+                        <div class="day-meta">
+                            <span class="meta-item">📍 Oxford → Winchester → Rye</span>
+                            <span class="meta-item">🚗 ca. 180 km</span>
+                            <span class="meta-item">⏱️ 10:30 - 19:00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-grid">
+                    <div class="activity-list">
+                        <h4>🎯 Hauptaktivitäten</h4>
+                        <ul>
+                            <li>✅ Winchester Cathedral - längste mittelalterliche Kathedrale (1,5h)</li>
+                            <li>✅ Jane Austen's Grab in der Kathedrale</li>
+                            <li>✅ The Great Hall - King Arthur's Round Table (1h)</li>
+                            <li>✅ Winchester City Museum - Alfred the Great</li>
+                            <li>✅ Ankunft Rye - Check-in Hare & Hounds</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <h4>⏰ Zeitplan</h4>
+                        <ul>
+                            <li>10:30 - Abreise Malmaison Oxford</li>
+                            <li>11:02 - Ankunft Winchester</li>
+                            <li>11:15-15:15 - Winchester (4h)</li>
+                            <li>15:15 - Abreise Winchester</li>
+                            <li>16:47 - Ankunft Rye</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-card">
+                    <h4>🏕️ Hare & Hounds Campingplatz</h4>
+                    <p>📍 Rye, East Sussex</p>
+                    <p>✅ Gebucht - Perfekte Basis für Rye-Erkundung</p>
+                </div>
+            </div>
+
+            <!-- Tag 15 -->
+            <div class="day-detail completed">
+                <div class="day-header">
+                    <div class="day-number">15</div>
+                    <div class="day-info">
+                        <h2>7. September - Rye → Camber Sands → Heimreise <span class="status-badge status-completed">✅ Abgeschlossen</span></h2>
+                        <div class="day-meta">
+                            <span class="meta-item">📍 Rye → Camber Sands → Folkestone</span>
+                            <span class="meta-item">🚗 ca. 50 km + Le Shuttle</span>
+                            <span class="meta-item">⏱️ 10:00 - 22:30</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activities-grid">
+                    <div class="activity-list">
+                        <h4>🎯 Hauptaktivitäten</h4>
+                        <ul>
+                            <li>✅ Rye - England's schönste mittelalterliche Stadt (2h)</li>
+                            <li>✅ Mermaid Inn - historisches Gasthaus (1420)</li>
+                            <li>✅ Ypres Tower - 13. Jahrhundert Festung</li>
+                            <li>✅ Camber Sands - 7 Meilen goldener Sandstrand (2,75h)</li>
+                            <li>✅ Le Shuttle Folkestone → Calais (17:24)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <h4>⏰ Zeitplan</h4>
+                        <ul>
+                            <li>10:00 - Abreise Hare & Hounds</li>
+                            <li>10:15-12:15 - Rye (2h)</li>
+                            <li>12:45-15:30 - Camber Sands (2,75h)</li>
+                            <li>16:04 - Ankunft Folkestone</li>
+                            <li>17:24 - Le Shuttle → Calais</li>
+                            <li>22:30 - Ankunft Leonberg (geschätzt)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="accommodation-card">
+                    <h4>🏠 Zuhause</h4>
+                    <p>📍 Leonberg</p>
+                    <p>✅ Perfekter Abschluss einer unvergesslichen 15-Tage-Reise</p>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 England Trip - Unvergessliche 15 Tage durch Südengland</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
