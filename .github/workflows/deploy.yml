@@ -3,11 +3,13 @@ name: Deploy to IONOS
 on:
   push:
     branches: [main]
-  workflow_dispatch:  # Manueller Deploy-Trigger im GitHub UI
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -15,13 +17,13 @@ jobs:
       - name: Install lftp
         run: sudo apt-get install -y lftp
 
-      - name: Deploy via FTP to IONOS
+      - name: Deploy via SFTP to IONOS
         run: |
           lftp -c "
-            set ftp:ssl-force true;
-            set ftp:ssl-protect-data true;
-            set ssl:verify-certificate false;
-            open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' ftps://${{ secrets.FTP_SERVER }};
-            mirror --reverse --delete --no-perms --no-umask --parallel=4 ./public/ ${{ secrets.FTP_SERVER_DIR }};
+            set sftp:auto-confirm yes;
+            set net:timeout 30;
+            set net:max-retries 2;
+            open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' sftp://${{ secrets.FTP_SERVER }};
+            mirror --reverse --delete --no-perms --no-umask --parallel=2 --verbose ./public/ ${{ secrets.FTP_SERVER_DIR }};
             bye
           "
