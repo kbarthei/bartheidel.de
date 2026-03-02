@@ -12,13 +12,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install lftp
+        run: sudo apt-get install -y lftp
+
       - name: Deploy via FTP to IONOS
-        uses: SamKirkland/FTP-Deploy-Action@v4
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./public/
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
-          protocol: ftps
-          port: 21
+        run: |
+          lftp -c "
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set ssl:verify-certificate false;
+            open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' ftps://${{ secrets.FTP_SERVER }};
+            mirror --reverse --delete --no-perms --no-umask --parallel=4 ./public/ ${{ secrets.FTP_SERVER_DIR }};
+            bye
+          "
