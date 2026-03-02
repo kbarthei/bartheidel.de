@@ -22,5 +22,5 @@
 
 AuthType Basic
 AuthName "Privater Bereich"
-AuthUserFile /var/www/vhosts/bartheidel.de/httpdocs/urlaub/.htpasswd
+AuthUserFile ${DOCUMENT_ROOT}/urlaub/.htpasswd
 Require valid-user
