@@ -24,6 +24,6 @@ jobs:
             set net:timeout 30;
             set net:max-retries 2;
             open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' sftp://${{ secrets.FTP_SERVER }};
-            mirror --reverse --delete --no-perms --no-umask --parallel=2 --verbose ./public/ ${{ secrets.FTP_SERVER_DIR }};
+            mirror --reverse --no-perms --no-umask --parallel=2 --verbose ./public/ ${{ secrets.FTP_SERVER_DIR }};
             bye
           "
